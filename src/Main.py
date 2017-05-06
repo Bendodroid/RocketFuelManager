@@ -12,6 +12,7 @@ def main():
         newrecipe = Recipe()
         newrecipe.cooktodict()
         newrecipe.createprettyprint()
+        newrecipe.prettyprintrecipe(6)
         saveornot = input("   Want to save? [Y]es or [N]o?: ")
         if saveornot[0].capitalize() == "Y":
             # newrecipe.createsavedata()

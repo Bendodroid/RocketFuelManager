@@ -1,4 +1,4 @@
-# Screen-Klasse
+# Screen-Class
 
 import os
 
