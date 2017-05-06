@@ -1,5 +1,7 @@
 # Recipe-Class
 
+import json
+
 
 class Recipe:
     rawdata = ["", 0.0, [0.0, 0.0], 0.0, 0.0]
@@ -20,7 +22,7 @@ class Recipe:
         """Read User Input"""
         self.rawdata[0] = input("\n           Input a title for the new recipe: ")
         self.rawdata[1] = float(input("                          Total Amount (g)?: "))
-        self.rawdata[2][0] = float(input("       %age of K-N-O3 in the basic Mixture?: "))
+        self.rawdata[2][0] = float(input("      %age of K-N-O3 for the basic Mixture?: "))
         self.rawdata[2][1] = 100 - self.rawdata[2][0]
         self.rawdata[3] = float(input("       (Additive) How much Sulfide/10g (g)?: "))
         self.rawdata[4] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
@@ -54,7 +56,6 @@ class Recipe:
             for i in range(2, len(key)):
                 newkey += key[i]
             self.datadictkeylist[self.datadictkeylist.index(key)] = newkey
-        print(self.datadictkeylist)
         # Assign Values from self.datadict
         for i in range(len(self.datadictkeylist)):
             spacestoinsert = (self.longestdatadictkey - len(self.datadictkeylist[i])) * " "
@@ -62,6 +63,7 @@ class Recipe:
             self.printlist[i][1] = self.datadict[str(i + 1) + ":" + self.datadictkeylist[i]]
 
     def prettyprintrecipe(self, indent=4, newlines=2):
+        """Print the recipe aligned to ':' """
         for i in range(newlines):
             print()
         spaces = indent * " "
@@ -74,3 +76,8 @@ class Recipe:
         self.savedata.append(self.datadictkeylist)
         self.savedata.append(self.longestdatadictkey)
         self.savedata.append(self.printlist)
+        self.savedata.append(input("                          Add a description: "))
+
+    def writetofile(self, indent=3, ensure_ascii=False):
+        with open(self.rawdata[0] + ".recipe", "w") as file:
+            file.write(json.dumps(self.savedata, indent=indent, ensure_ascii=ensure_ascii))

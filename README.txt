@@ -9,9 +9,9 @@ Planned changes:
 - Load/Save improvements
     - Single database and not a file for every recipe
 
-### How to use ?
+### How to use?
 
 For the full program, only the 3 .py files in /src are necessary,
 run it with:
 
-        ~$ python3 Main.py
+    ~$ python3 Main.py
