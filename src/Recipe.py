@@ -2,13 +2,14 @@
 
 
 class Recipe:
-    data = [0.0, [0.0, 0.0], 0.0, 0.0]
-    datadict = {"1-Menge": 0.0,
-                "2-Verhältnis": [0, 0],
-                "3-Gramm KNO3": 0.0,
-                "4-Gramm Saccharose": 0.0,
-                "5-Spatelspitzen S/10g": 0.0,
-                "6-Spatelspitzen Fe2O3/10g": 0.0,
+    rawdata = ["", 0.0, [0.0, 0.0], 0.0, 0.0]
+    datadict = {"1:Title": "",
+                "2:Total": 0.0,
+                "3:Ratio": [0.0, 0.0],
+                "4:K-N-O3 (g)": 0.0,
+                "5:Sugar (g)": 0.0,
+                "6:Sulfide (g)": 0.0,
+                "7:Fe2-O3 (g)": 0.0
                 }
     datadictkeylist = []
     printlist = []
@@ -17,20 +18,22 @@ class Recipe:
     
     def __init__(self):
         """Read User Input"""
-        self.data[0] = float(input("\n\n                   Wieviel Gramm insgesamt?: "))
-        self.data[1][0] = float(input("\n                      Wieviel Prozent KNO3?: "))
-        self.data[1][1] = 100 - self.data[1][0]
-        self.data[2] = float(input("   Wieviele Spatelspitzen Schwefel pro 10g?: "))
-        self.data[3] = float(input("      Wieviele Spatelspitzen Fe2O3 pro 10g?: "))
+        self.rawdata[0] = input("           Input a title for the new recipe: ")
+        self.rawdata[1] = float(input("                          Total Amount (g)?: "))
+        self.rawdata[2][0] = float(input("    How much % K-N-O3 in the basic Mixture?: "))
+        self.rawdata[2][1] = 100 - self.rawdata[2][0]
+        self.rawdata[3] = float(input("           (Additive) How much Sulfide (g)?: "))
+        self.rawdata[4] = float(input("            (Additive) How much Fe2-O3 (g)?: "))
 
     def cooktodict(self):
         """Creates complete datadict"""
-        self.datadict["1-Menge"] = self.data[0]
-        self.datadict["2-Verhältnis"] = [self.data[1][0], self.data[1][1]]
-        self.datadict["3-Gramm KNO3"] = self.data[0] * (self.data[1][0] / 100)
-        self.datadict["4-Gramm Saccharose"] = self.data[0] * (self.data[1][1] / 100)
-        self.datadict["5-Spatelspitzen S/10g"] = (self.data[0] // 10) * self.data[2]
-        self.datadict["6-Spatelspitzen Fe2O3/10g"] = (self.data[0] // 10) * self.data[3]
+        self.datadict["1:Title"] = self.rawdata[0]
+        self.datadict["2:Total (g)"] = self.rawdata[1]
+        self.datadict["3:Ratio"] = [self.rawdata[2][0], self.rawdata[2][1]]
+        self.datadict["4:K-N-O3 (g)"] = self.rawdata[1] * (self.rawdata[2][0] / 100)
+        self.datadict["5:Sugar (g)"] = self.rawdata[1] * (self.rawdata[2][1] / 100)
+        self.datadict["6:Sulfide (g)"] = (self.rawdata[1] // 10) * self.rawdata[3]
+        self.datadict["7:Fe2-O3 (g)"] = (self.rawdata[1] // 10) * self.rawdata[4]
         # Create sorted datadictkeylist
         for key, value in self.datadict.items():
             self.datadictkeylist.append(key)
