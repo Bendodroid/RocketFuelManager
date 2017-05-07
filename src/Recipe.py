@@ -15,17 +15,30 @@ class Recipe:
                 }
     datadictkeylist = []
     printlist = []
-    savedata = []
+    savedata = {}
     longestdatadictkey = 0
 
-    def __init__(self):
-        """Read User Input"""
-        self.rawdata[0] = input("\n           Input a title for the new recipe: ")
-        self.rawdata[1] = float(input("                          Total Amount (g)?: "))
-        self.rawdata[2][0] = float(input("      %age of K-N-O3 for the basic Mixture?: "))
-        self.rawdata[2][1] = 100 - self.rawdata[2][0]
-        self.rawdata[3] = float(input("       (Additive) How much Sulfide/10g (g)?: "))
-        self.rawdata[4] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
+    def __init__(self, loadfromfile=False, filename=""):
+        """Read User Input or load from file"""
+        if loadfromfile is False:
+            self.rawdata[0] = input("\n           Input a title for the new recipe: ")
+            self.rawdata[1] = float(input("                          Total Amount (g)?: "))
+            self.rawdata[2][0] = float(input("      %age of K-N-O3 for the basic Mixture?: "))
+            self.rawdata[2][1] = 100 - self.rawdata[2][0]
+            self.rawdata[3] = float(input("       (Additive) How much Sulfide/10g (g)?: "))
+            self.rawdata[4] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
+        elif loadfromfile is True:
+            self.loaddatafromjsonfile(filename)
+
+    def loaddatafromjsonfile(self, filename=""):
+        with open(filename + ".recipe", "r") as file:
+            loadobj = json.load(file)
+            self.rawdata = loadobj["rawdata"]
+            self.datadict = loadobj["datadict"]
+            self.datadictkeylist = loadobj["datadictkeylist"]
+            self.longestdatadictkey = loadobj["longestdatadictkey"]
+            self.printlist = loadobj["printlist"]
+            self.savedata["Notes"] = loadobj["Notes"]
 
     def cooktodict(self):
         """Creates complete datadict"""
@@ -62,7 +75,7 @@ class Recipe:
             self.printlist[i][0] = self.datadictkeylist[i] + spacestoinsert
             self.printlist[i][1] = self.datadict[str(i + 1) + ":" + self.datadictkeylist[i]]
 
-    def prettyprintrecipe(self, indent=4, newlines=2):
+    def prettyprintrecipe(self, indent=24, newlines=2):
         """Print the recipe aligned to ':' """
         for i in range(newlines):
             print()
@@ -71,12 +84,15 @@ class Recipe:
             print(spaces + item[0] + " : " + str(item[1]))
 
     def createsavedata(self):
-        self.savedata.append(self.rawdata)
-        self.savedata.append(self.datadict)
-        self.savedata.append(self.datadictkeylist)
-        self.savedata.append(self.longestdatadictkey)
-        self.savedata.append(self.printlist)
-        self.savedata.append(input("                          Add a description: "))
+        self.savedata["rawdata"] = self.rawdata
+        self.savedata["datadict"] = self.datadict
+        self.savedata["datadictkeylist"] = self.datadictkeylist
+        self.savedata["longestdatadictkey"] = self.longestdatadictkey
+        self.savedata["printlist"] = self.printlist
+        try:
+            self.savedata["Notes"]
+        except KeyError:
+            self.savedata["Notes"] = input("                          Add a description: ")
 
     def writetofile(self, indent=3, ensure_ascii=False):
         with open(self.rawdata[0] + ".recipe", "w") as file:

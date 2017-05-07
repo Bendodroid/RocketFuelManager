@@ -17,8 +17,9 @@ while True:
             newrecipe.createsavedata()
             newrecipe.writetofile()
     elif calcorread[0].capitalize() == "L":
-        pass
-
-    repeatorexit = input("          Do you want to exit? [Y]es or [N]: ")
+        recipename = input("\n                     Enter the name of a recipe: ")
+        loadrecipe = Recipe(loadfromfile=True, filename=recipename)
+        loadrecipe.prettyprintrecipe(indent=24, newlines=2)
+    repeatorexit = input("\n\n          Do you want to exit? [Y]es or [N]: ")
     if repeatorexit.capitalize() == "Y":
         break
