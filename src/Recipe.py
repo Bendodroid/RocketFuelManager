@@ -20,6 +20,7 @@ class Recipe:
     printlist = []
     savedata = {}
     loadedfromjson = False
+    nonexistent = False
 
     def __init__(self, loadfromfile=False, filename=""):
         """Read User Input or load from file"""
@@ -31,16 +32,19 @@ class Recipe:
             self.rawdata[3][1] = 100 - self.rawdata[3][0]
             self.rawdata[4] = float(input("       (Additive) How much Sulfide/10g (g)?: "))
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
-            # self.rawdata[6] = input("                      Add notes if you want: ")
         elif loadfromfile is True:
             self.loadedfromjson = True
-            with open(filename + ".recipe", "r") as file:
-                loadobj = json.loads(file.read())
-                self.rawdata = loadobj["rawdata"]
-                self.datadict = loadobj["datadict"]
-                self.datadictkeylist = loadobj["datadictkeylist"]
-                self.longestdatadictkey = loadobj["longestdatadictkey"]
-                self.printlist = loadobj["printlist"]
+            try:
+                with open(filename + ".recipe", "r") as file:
+                    loadobj = json.loads(file.read())
+                    self.rawdata = loadobj["rawdata"]
+                    self.datadict = loadobj["datadict"]
+                    self.datadictkeylist = loadobj["datadictkeylist"]
+                    self.longestdatadictkey = loadobj["longestdatadictkey"]
+                    self.printlist = loadobj["printlist"]
+            except FileNotFoundError:
+                print("\n                 >>> There's no such file! Try again!")
+                self.nonexistent = True
 
     def cooktodict(self):
         """Generate datadict and keylist"""
@@ -52,7 +56,6 @@ class Recipe:
         self.datadict["6-Sugar (g)"] = self.rawdata[2] * (self.rawdata[3][1] / 100)
         self.datadict["7-Sulfide (g)"] = (self.rawdata[2] // 10) * self.rawdata[4]
         self.datadict["8-Fe2-O3 (g)"] = (self.rawdata[2] // 10) * self.rawdata[5]
-        # self.datadict["9-Notes"] = self.rawdata[6]
 
     def generatekeylist(self, reset=True):
         """Generate keylist"""
@@ -110,4 +113,4 @@ class Recipe:
     def writetofile(self):
         """Writes self.savedata to file"""
         with open(self.rawdata[0] + ".recipe", "w") as file:
-            file.write(json.dumps(self.savedata, indent=2, ensure_ascii=False))
+            file.write(json.dumps(self.savedata, indent=4, ensure_ascii=False))
