@@ -20,6 +20,7 @@ while True:
         recipename = input("\n                     Enter the name of a recipe: ")
         loadrecipe = Recipe(loadfromfile=True, filename=recipename)
         loadrecipe.prettyprintrecipe(indent=24, newlines=2)
-    repeatorexit = input("\n\n          Do you want to exit? [Y]es or [N]: ")
+    repeatorexit = input("\n          Do you want to exit? [Y]es or [N]: ")
     if repeatorexit.capitalize() == "Y":
+        Screen.clearscreen()
         break

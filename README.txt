@@ -10,6 +10,7 @@ Working:
 - Calculation of fuel ingredients (K-N-O3, Sugar, Sulfide, Fe2-O3)
 - Export to JSON
 - Importing and printing of saved recipes
+    - Now including Notes
 
 Not Working:
 
@@ -23,8 +24,9 @@ run it with:
 
     ~$ python3 Main.py
 
-Saved recipes are named <your title>.recipe in the Program source directory,
-you're asked to enter the name of the recipe you specified when calculating.
+Saved recipes are named <your title>.recipe in the Program source directory.
+When loading from a file, you're asked to enter the name of the recipe
+that you specified when calculating.
 
 ### Planned changes
 
