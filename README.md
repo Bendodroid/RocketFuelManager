@@ -8,30 +8,24 @@ based on Potassium-Nitrate and Sugar.
 Working:
 
 - Calculation of fuel ingredients (K-N-O3, Sugar, Sulfide, Fe2-O3)
-- Export to JSON
-- Importing and printing of saved recipes
-    - Now including Notes
-
-Not Working:
-
-- Editing of recipes in JSON files (under construction)
-- User-specified ingredients (in preparation)
+- Saving and Importing of recipes from a JSON file
+- Importing and printing of saved recipes (Now including notes)
 
 ### How to use?
 
-For the full program, only the 3 .py files in /src are necessary,
+For the full program, only the .py files in /src are necessary,
 run it with:
 
     ~$ python3 Main.py
 
-Saved recipes are named <your title>.recipe in the Program source directory. 
-When trying to load from a file, you're asked to enter the name of the recipe 
-you specified when calculating.
+Saved recipes are named <your title>.recipe in the Program source directory.
+When trying to load from the Cookbook, you're asked to enter the name of the recipe you specified when calculating.
 
 ### Planned changes
 
-- User can add or remove ingredients
+- User-specified ingredients (in preparation)
     - Rework input procedure
 - Load/Save improvements
-    - Single database and not a file for every recipe
-- Different folder for recipes
+    - Editing or Removing of recipes in JSON files (under construction)
+        - Currently you have to delete saved recipes manually or 
+          overwrite them
