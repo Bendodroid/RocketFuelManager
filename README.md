@@ -15,7 +15,7 @@ Working:
 Not Working:
 
 - Editing of recipes in JSON files (under construction)
-- User-specified ingredients
+- User-specified ingredients (in preparation)
 
 ### How to use?
 
@@ -24,9 +24,9 @@ run it with:
 
     ~$ python3 Main.py
 
-Saved recipes are named <your title>.recipe in the Program source directory.
-When loading from a file, you're asked to enter the name of the recipe
-that you specified when calculating.
+Saved recipes are named <your title>.recipe in the Program source directory. 
+When trying to load from a file, you're asked to enter the name of the recipe 
+you specified when calculating.
 
 ### Planned changes
 
