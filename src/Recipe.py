@@ -31,7 +31,7 @@ class Recipe:
             self.rawdata[3][1] = 100 - self.rawdata[3][0]
             self.rawdata[4] = float(input("       (Additive) How much Sulfide/10g (g)?: "))
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
-            self.rawdata[6] = input("                      Add notes if you want: ")
+            # self.rawdata[6] = input("                      Add notes if you want: ")
         elif loadfromfile is True:
             self.loadedfromjson = True
             with open(filename + ".recipe", "r") as file:
@@ -52,7 +52,7 @@ class Recipe:
         self.datadict["6-Sugar (g)"] = self.rawdata[2] * (self.rawdata[3][1] / 100)
         self.datadict["7-Sulfide (g)"] = (self.rawdata[2] // 10) * self.rawdata[4]
         self.datadict["8-Fe2-O3 (g)"] = (self.rawdata[2] // 10) * self.rawdata[5]
-        self.datadict["9-Notes"] = self.rawdata[6]
+        # self.datadict["9-Notes"] = self.rawdata[6]
 
     def generatekeylist(self, reset=True):
         """Generate keylist"""
@@ -62,7 +62,7 @@ class Recipe:
             self.datadictkeylist.append(key)
         self.datadictkeylist.sort()
 
-    def createprettyprint(self):
+    def createprettyprint(self, excludenotes=False):
         """Creates a pretty-printable list"""
         self.generatekeylist(reset=True)
         # Determine longest key
@@ -72,7 +72,7 @@ class Recipe:
                 self.longestdatadictkey = len(key) + 1
         # Create printlist
         self.printlist = []
-        for i in range(len(self.datadictkeylist)):
+        for i in range(len(self.datadictkeylist) - int(excludenotes)):
             self.printlist.append(["", ""])
         # Remove numbers in front of keys in self.datadictkeylist
         for key in self.datadictkeylist:
@@ -81,18 +81,23 @@ class Recipe:
                 newkey += key[i]
             self.datadictkeylist[self.datadictkeylist.index(key)] = newkey
         # Assign Values from self.datadict
-        for i in range(len(self.datadictkeylist)):
+        for i in range(len(self.datadictkeylist) - int(excludenotes)):
             spacestoinsert = (self.longestdatadictkey - len(self.datadictkeylist[i])) * " "
             self.printlist[i][0] = self.datadictkeylist[i] + spacestoinsert
             self.printlist[i][1] = str(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]])
 
-    def prettyprintrecipe(self, indent=24, newlines=2):
+    def prettyprintrecipe(self, regenerate=False, indent=24, newlines=2):
         """Print the recipe aligned to ':' """
+        if regenerate is True:
+            self.createprettyprint(excludenotes=False)
         for i in range(newlines):
             print()
         spaces = indent * " "
         for item in self.printlist:
             print(spaces + item[0] + " : " + str(item[1]))
+        if self.loadedfromjson is not True:
+            self.datadict["9-Notes"] = input("\n\n                      Add notes if you want: ")
+            self.rawdata[6] = self.datadict["9-Notes"]
 
     def createsavedata(self):
         """Creates JSON-compatible object to save all data"""
