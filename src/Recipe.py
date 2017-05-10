@@ -1,6 +1,6 @@
 # Recipe-Class
 
-import json
+from CookbookHandler import *
 
 
 class Recipe:
@@ -21,8 +21,10 @@ class Recipe:
     savedata = {}
     loadedfromjson = False
     nonexistent = False
+    indent = 4
+    ascii = False
 
-    def __init__(self, loadfromfile=False, filename=""):
+    def __init__(self, loadfromfile=False, name=""):
         """Read User Input or load from file"""
         if loadfromfile is False:
             self.rawdata[0] = input("\n           Input a title for the new recipe: ")
@@ -34,20 +36,10 @@ class Recipe:
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
         elif loadfromfile is True:
             self.loadedfromjson = True
-            try:
-                with open(filename + ".recipe", "r") as file:
-                    loadobj = json.loads(file.read())
-                    self.rawdata = loadobj["rawdata"]
-                    self.datadict = loadobj["datadict"]
-                    self.datadictkeylist = loadobj["datadictkeylist"]
-                    self.longestdatadictkey = loadobj["longestdatadictkey"]
-                    self.printlist = loadobj["printlist"]
-            except FileNotFoundError:
-                print("\n                 >>> There's no such file! Try again!")
-                self.nonexistent = True
+            CookbookHandler.loadfromcookbook(self, name)
 
     def cooktodict(self):
-        """Generate datadict and keylist"""
+        """Generate datadict"""
         self.datadict["1-Title"] = self.rawdata[0]
         self.datadict["2-Date"] = self.rawdata[1]
         self.datadict["3-Total (g)"] = self.rawdata[2]
@@ -111,6 +103,5 @@ class Recipe:
         self.savedata["printlist"] = self.printlist
 
     def writetofile(self):
-        """Writes self.savedata to file"""
-        with open(self.rawdata[0] + ".recipe", "w") as file:
-            file.write(json.dumps(self.savedata, indent=4, ensure_ascii=False))
+        """Saves the recipe to Cookbook.db"""
+        CookbookHandler.savetocookbook(self)

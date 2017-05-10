@@ -18,7 +18,7 @@ while True:
             newrecipe.writetofile()
     elif calcorread[0].capitalize() == "L":
         recipename = input("\n                 Enter the name of a recipe: ")
-        loadrecipe = Recipe(loadfromfile=True, filename=recipename)
+        loadrecipe = Recipe(loadfromfile=True, name=recipename)
         if loadrecipe.nonexistent is not True:
             loadrecipe.prettyprintrecipe(regenerate=True, indent=28, newlines=2)
     repeatorexit = input("\n\n        Do you want to exit? [Y]es or [N]o?: ")
