@@ -28,14 +28,14 @@ class CookbookHandler:
                                   sort_keys=CookbookHandler.sortkeys))
 
     @staticmethod
-    def loadfromcookbook(obj, recipename="", date=""):
+    def loadfromcookbook(obj, jsonkey="", bydate=False):
         """Loads from the Cookbook"""
-        if recipename != "" and date == "":
+        if bydate is False:
             # Triggered to load by name
             try:
                 with open("Cookbook.db", "r") as file:
                     cookbook = json.loads(file.read())
-                loadobj = cookbook[recipename]
+                loadobj = cookbook[jsonkey]
                 obj.rawdata = loadobj["rawdata"]
                 obj.datadict = loadobj["datadict"]
                 obj.datadictkeylist = loadobj["datadictkeylist"]
@@ -44,7 +44,7 @@ class CookbookHandler:
             except KeyError:
                 print("\n                 >>> There's no such recipe! Try again!")
                 obj.nonexistent = True
-        elif recipename == "" and date != "":
+        elif bydate is not False:
             # Triggered to load by date
             try:
                 with open("Cookbook.db", "r") as file:
@@ -52,16 +52,16 @@ class CookbookHandler:
                 # Check if multiple recipies have the same date
                 recipessamedate = []
                 for key, value in cookbook.items():
-                    if cookbook[key]["rawdata"][1] == date:
+                    if cookbook[key]["rawdata"][1] == jsonkey:
                         recipessamedate.append(key)
                 if len(recipessamedate) == 1:
                     # Triggered when only one recipe has the specific date
                     for key, value in cookbook.items():
-                        if cookbook[key]["rawdata"][1] == date:
-                            CookbookHandler.loadfromcookbook(obj=obj, recipename=key, date="")
+                        if cookbook[key]["rawdata"][1] == jsonkey:
+                            CookbookHandler.loadfromcookbook(obj=obj, jsonkey=key, bydate=False)
                 elif len(recipessamedate) > 1:
                     # Triggered when more have it
-                    print("\n   Multiple recipes are dated to " + date + ". Which do you want to load?\n")
+                    print("\n   Multiple recipes are dated to " + jsonkey + ". Which do you want to load?\n")
                     for i in range(len(recipessamedate)):
                         print("                                         " + str(i + 1) + " : " + recipessamedate[i])
                     choice = input("\n                            Choose a recipe: ")
@@ -71,7 +71,7 @@ class CookbookHandler:
                             choice = recipessamedate[int(choice) - 1]
                     except ValueError:
                         pass
-                    CookbookHandler.loadfromcookbook(obj=obj, recipename=choice, date="")
+                    CookbookHandler.loadfromcookbook(obj=obj, jsonkey=choice, bydate=False)
             except KeyError:
                 print("\n                 >>> There's no such recipe! Try again!")
                 obj.nonexistent = True

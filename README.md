@@ -21,6 +21,11 @@ run it with:
 Saved recipes are stored in the Cookbook.db in the Program source directory.
 When trying to load from the Cookbook, you're asked to enter the name or date
 of the recipe you specified when calculating.
+The program doesn't care how you format the date and title, it uses
+your input(as a string) as an identifier to save/load it, so don't put unnecessary
+whitespaces at the end of your input. To keep it easy, you
+should always use the same way to input your date and title,
+something like <2017-12-31>.
 
 ### Planned changes
 

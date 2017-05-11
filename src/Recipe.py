@@ -36,10 +36,7 @@ class Recipe:
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
         elif loadfromfile is True:
             self.loadedfromjson = True
-            if searchbydate is False:
-                CookbookHandler.loadfromcookbook(self, recipename=identifier, date="")
-            elif searchbydate is True:
-                CookbookHandler.loadfromcookbook(self, recipename="", date=identifier)
+            CookbookHandler.loadfromcookbook(self, jsonkey=identifier, bydate=searchbydate)
 
     def cooktodict(self):
         """Generate datadict"""
