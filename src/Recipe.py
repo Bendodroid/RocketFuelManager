@@ -24,7 +24,7 @@ class Recipe:
     indent = 4
     ascii = False
 
-    def __init__(self, loadfromfile=False, name=""):
+    def __init__(self, loadfromfile=False, identifier="", searchbydate=False):
         """Read User Input or load from file"""
         if loadfromfile is False:
             self.rawdata[0] = input("\n           Input a title for the new recipe: ")
@@ -36,7 +36,10 @@ class Recipe:
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
         elif loadfromfile is True:
             self.loadedfromjson = True
-            CookbookHandler.loadfromcookbook(self, name)
+            if searchbydate is False:
+                CookbookHandler.loadfromcookbook(self, recipename=identifier, date="")
+            elif searchbydate is True:
+                CookbookHandler.loadfromcookbook(self, recipename="", date=identifier)
 
     def cooktodict(self):
         """Generate datadict"""

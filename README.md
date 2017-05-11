@@ -18,8 +18,9 @@ run it with:
 
     ~$ python3 Main.py
 
-Saved recipes are named <your title>.recipe in the Program source directory.
-When trying to load from the Cookbook, you're asked to enter the name of the recipe you specified when calculating.
+Saved recipes are stored in the Cookbook.db in the Program source directory.
+When trying to load from the Cookbook, you're asked to enter the name or date
+of the recipe you specified when calculating.
 
 ### Planned changes
 
@@ -29,3 +30,4 @@ When trying to load from the Cookbook, you're asked to enter the name of the rec
     - Editing or Removing of recipes in JSON files (under construction)
         - Currently you have to delete saved recipes manually or 
           overwrite them
+- Specify storage method, export to extra file or Cookbook.db
