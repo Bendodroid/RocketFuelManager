@@ -79,7 +79,15 @@ class Recipe:
         for i in range(len(self.datadictkeylist) - int(excludenotes)):
             spacestoinsert = (self.longestdatadictkey - len(self.datadictkeylist[i])) * " "
             self.printlist[i][0] = self.datadictkeylist[i] + spacestoinsert
-            self.printlist[i][1] = str(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]])
+            if type(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]]) is float:
+                self.printlist[i][1] = str(round(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]], 2))
+            elif type(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]]) is list:
+                a = str(round(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]][0], 2))
+                b = str(round(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]][1], 2))
+                self.printlist[i][1] = "[" + a + ", "
+                self.printlist[i][1] += b + "]"
+            else:
+                self.printlist[i][1] = str(self.datadict[str(i + 1) + "-" + self.datadictkeylist[i]])
 
     def prettyprintrecipe(self, regenerate=False, indent=24, newlines=2):
         """Print the recipe aligned to ':' """

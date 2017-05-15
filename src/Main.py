@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from Screen import *
-from Recipe import *
+from Screen import Screen
+from Recipe import Recipe
 
 
 while True:

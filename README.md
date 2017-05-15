@@ -8,7 +8,6 @@ based on Potassium-Nitrate and Sugar.
 Working:
 
 - Calculation of fuel ingredients (K-N-O3, Sugar, Sulfide, Fe2-O3)
-- Saving and Importing of recipes from a JSON file
 - Importing and printing of saved recipes (Now including notes)
 
 ### How to use?
@@ -24,8 +23,8 @@ of the recipe you specified when calculating.
 The program doesn't care how you format the date and title, it uses
 your input(as a string) as an identifier to save/load it, so don't put unnecessary
 whitespaces at the end of your input. To keep it easy, you
-should always use the same way to input your date and title,
-something like <2017-12-31>.
+should always use the same way to input your date or title,
+something like 2017-12-31.
 
 ### Planned changes
 
