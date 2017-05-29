@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 from Screen import Screen
 from Recipe import Recipe
@@ -15,24 +15,45 @@ while True:
         newrecipe.prettyprintrecipe(indent=28, newlines=2)
         saveornot = input("\n\n               Want to save? [Y]es or [N]o?: ")
         if saveornot[0].capitalize() == "Y":
-            # Save data to Cookbook.db
+            # Save data
             newrecipe.createsavedata()
-            newrecipe.writetofile()
+            cookbookorsingle = input("\n     [A]dd to Cookbook, [e]xport or [b]oth?: ")
+            if cookbookorsingle.capitalize() == "A":
+                newrecipe.writetofile(singlefile=False)
+            elif cookbookorsingle.capitalize() == "E":
+                newrecipe.writetofile(singlefile=True)
+            elif cookbookorsingle.capitalize() == "B":
+                newrecipe.writetofile(singlefile=False)
+                newrecipe.writetofile(singlefile=True)
+
     elif calcorread.capitalize() == "L":
-        # Load a saved recipe
-        dateorname = input("\n             Search by [d]ate or by [n]ame?: ")
-        if dateorname.capitalize() == "N":
-            # Load by name
-            recipename = input("\n              Enter the name of your recipe: ")
-            loadrecipe = Recipe(loadfromfile=True, identifier=recipename, searchbydate=False)
+        singleorcookbook = input("\n   Load a [s]ingle file or from [C]ookbook?: ")
+        if singleorcookbook.capitalize() == "S":
+            # Load from single file
+            name = input("\n        Enter the name of your .recipe file: ")
+            loadrecipe = Recipe(loadfromfile=True, singlefile=True, identifier=name, searchbydate=False)
             if loadrecipe.nonexistent is not True:
                 loadrecipe.prettyprintrecipe(regenerate=True, indent=28, newlines=2)
-        elif dateorname.capitalize() == "D":
-            # Load by date
-            recipedate = input("\n              Enter the date of your recipe: ")
-            loadrecipe = Recipe(loadfromfile=True, identifier=recipedate, searchbydate=True)
-            if loadrecipe.nonexistent is not True:
-                loadrecipe.prettyprintrecipe(regenerate=True, indent=28, newlines=2)
+                importornot = input("\n        Do you want to [i]mport the recipe?: ")
+                if importornot.capitalize() == "I":
+                    loadrecipe.modifynoteprocedure(save=True)
+        elif singleorcookbook.capitalize() == "C":
+            # Load a saved recipe
+            dateorname = input("\n             Search by [d]ate or by [n]ame?: ")
+            if dateorname.capitalize() == "N":
+                # Load by name
+                recipename = input("\n              Enter the name of your recipe: ")
+                loadrecipe = Recipe(loadfromfile=True, identifier=recipename, searchbydate=False)
+                if loadrecipe.nonexistent is not True:
+                    loadrecipe.prettyprintrecipe(regenerate=True, indent=28, newlines=2)
+                    loadrecipe.modifynoteprocedure(save=True)
+            elif dateorname.capitalize() == "D":
+                # Load by date
+                recipedate = input("\n              Enter the date of your recipe: ")
+                loadrecipe = Recipe(loadfromfile=True, identifier=recipedate, searchbydate=True)
+                if loadrecipe.nonexistent is not True:
+                    loadrecipe.prettyprintrecipe(regenerate=True, indent=28, newlines=2)
+                    loadrecipe.modifynoteprocedure(save=True)
     repeatorexit = input("\n\n        Do you want to exit? [Y]es or [N]o?: ")
     if repeatorexit.capitalize() == "Y":
         Screen.clearscreen()

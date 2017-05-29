@@ -20,11 +20,12 @@ class Recipe:
     printlist = []
     savedata = {}
     loadedfromjson = False
+    imported = False
     nonexistent = False
     indent = 4
     ascii = False
 
-    def __init__(self, loadfromfile=False, identifier="", searchbydate=False):
+    def __init__(self, loadfromfile=False, singlefile=False, identifier="", searchbydate=False):
         """Read User Input or load from file"""
         if loadfromfile is False:
             self.rawdata[0] = input("\n           Input a title for the new recipe: ")
@@ -36,7 +37,11 @@ class Recipe:
             self.rawdata[5] = float(input("        (Additive) How much Fe2-O3/10g (g)?: "))
         elif loadfromfile is True:
             self.loadedfromjson = True
-            CookbookHandler.loadfromcookbook(self, jsonkey=identifier, bydate=searchbydate)
+            if singlefile is True:
+                CookbookHandler.loadfromcookbook(self, jsonkey=identifier, singlefile=True, bydate=False)
+                self.imported = True
+            else:
+                CookbookHandler.loadfromcookbook(self, jsonkey=identifier, singlefile=False, bydate=searchbydate)
 
     def cooktodict(self):
         """Generate datadict"""
@@ -46,8 +51,10 @@ class Recipe:
         self.datadict["4-Ratio"] = [self.rawdata[3][0], self.rawdata[3][1]]
         self.datadict["5-K-N-O3 (g)"] = self.rawdata[2] * (self.rawdata[3][0] / 100)
         self.datadict["6-Sugar (g)"] = self.rawdata[2] * (self.rawdata[3][1] / 100)
-        self.datadict["7-Sulfide (g)"] = (self.rawdata[2] // 10) * self.rawdata[4]
-        self.datadict["8-Fe2-O3 (g)"] = (self.rawdata[2] // 10) * self.rawdata[5]
+        self.datadict["7-Sulfide (g)"] = (self.rawdata[2] / 10) * self.rawdata[4]
+        self.datadict["8-Fe2-O3 (g)"] = (self.rawdata[2] / 10) * self.rawdata[5]
+        if self.rawdata[6] is not "":
+            self.datadict["9-Notes"] = self.rawdata[6]
 
     def generatekeylist(self, reset=True):
         """Generate keylist"""
@@ -110,6 +117,25 @@ class Recipe:
         self.savedata["longestdatadictkey"] = self.longestdatadictkey
         self.savedata["printlist"] = self.printlist
 
-    def writetofile(self):
-        """Saves the recipe to Cookbook.db"""
-        CookbookHandler.savetocookbook(self)
+    def writetofile(self, singlefile=False):
+        """Saves the recipe to Cookbook.db or single file"""
+        CookbookHandler.savetocookbook(self, singlefile=singlefile)
+
+    def modifynoteprocedure(self, save=True):
+        """Method to modify the notes"""
+        modnotes = input("\n                        [M]odify the notes?: ")
+        if modnotes.capitalize() == "M":
+            self.rawdata[6] = input("                      Put in your new Notes: ")
+            self.cooktodict()
+            self.createprettyprint()
+            self.createsavedata()
+            if save is True:
+                self.writetofile(singlefile=False)
+            try:
+                with open(self.rawdata[0] + ".recipe", "r") as file:
+                    file.read()
+                modornot = input("\n                  [M]odify the single file?: ")
+                if modornot.capitalize() == "M":
+                    self.writetofile(singlefile=True)
+            except FileNotFoundError:
+                pass

@@ -9,11 +9,13 @@ Working:
 
 - Calculation of fuel ingredients (K-N-O3, Sugar, Sulfide, Fe2-O3)
 - Importing and printing of saved recipes (Now including notes)
+- Specify where to store the recipe, in a single file or the Cookbook
+- Editing notes in importing process
 
 ### How to use?
 
 For the full program, only the .py files in /src are necessary,
-run it with:
+run it in /src with:
 
     ~$ python3 Main.py
 
@@ -34,4 +36,3 @@ something like 2017-12-31.
     - Editing or Removing of recipes in JSON files (under construction)
         - Currently you have to delete saved recipes manually or 
           overwrite them
-- Specify storage method, export to extra file or Cookbook.db
