@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-from Screen import Screen
+
+import tc
+
 from Recipe import Recipe
 
 
 while True:
-    Screen.createheader("RocketFuelManager ver 1.0", clear=True)
+    tc.create_header("RocketFuelManager ver 1.0", clearterm=True)
     calcorread = input(" What can I help you with? [C]alculate a new recipe or [L]oad an old one?: ")
     if calcorread.capitalize() == "C":
         # Calculate a new recipe
@@ -56,5 +58,5 @@ while True:
                     loadrecipe.modifynoteprocedure(save=True)
     repeatorexit = input("\n\n        Do you want to exit? [Y]es or [N]o?: ")
     if repeatorexit.capitalize() == "Y":
-        Screen.clearscreen()
+        tc.clear_term()
         break
