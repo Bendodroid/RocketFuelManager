@@ -1,9 +1,9 @@
-### RocketFuelManager
+# RocketFuelManager
 
 A tool to calculate, save and edit fuel-mixtures for sugar-rockets
 based on Potassium-Nitrate and Sugar.
 
-### Features
+## Features
 
 Working:
 
@@ -12,7 +12,7 @@ Working:
 - Specify where to store the recipe, in a single file or the Cookbook
 - Editing notes in importing process
 
-### How to use?
+## How to use?
 
 For the full program, only the .py files in /src are necessary,
 run it in /src with:
@@ -28,11 +28,11 @@ whitespaces at the end of your input. To keep it easy, you
 should always use the same way to input your date or title,
 something like 2017-12-31.
 
-### Planned changes
+## Planned changes
 
 - User-specified ingredients (in preparation)
     - Rework input procedure
 - Load/Save improvements
     - Editing or Removing of recipes in JSON files (under construction)
-        - Currently you have to delete saved recipes manually or 
-          overwrite them
+    - Currently you have to delete saved recipes manually or 
+      overwrite them
